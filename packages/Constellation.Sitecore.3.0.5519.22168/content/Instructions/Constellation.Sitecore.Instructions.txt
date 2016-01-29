@@ -1,0 +1,42 @@
+﻿Instructions
+============
+There are a number of interesting components in this library. They are discussed individually here.
+
+IContextSensitive and ContextValidator
+--------------------------------------
+Useful for Rules, Pipelines and Event Handlers. IContextSensitive defines a series of properties that
+are used by ContextValidator to determine if a given piece of code should run. HttpPipeline processors
+are a classic example, where you might want them to run against your websites but not against the Sitecore
+Client.
+
+Have your handler inherit from IContextSensitive, and ensure that before your processing method executes
+anything, it uses ContextValidator to determine if the code should execute.
+
+Examples: 
+
+* Pipelines.HttpRequestProcessor (which is a base class you can use)
+* Rules.Actions.RuleAction (which is a base class you can use)
+
+DatasourceResolver
+------------------
+Provides a quick way to make sure your XPath query or fast-query statements are escaped properly.
+
+ItemExtensions and LanguageExtensions
+-------------------------------------
+Critical multi-site and multi-language capabilities to make sure your front-end code has the right
+item in the right language every time.
+
+SiteInfoExtensions
+------------------
+Adds support for an additional site definition parameter that allows a developer to specify *all* 
+the languages a given site should support.
+
+Rules
+-----
+A number of rule actions to move items around on save:
+* MoveToAlphabeticalFolder - based on Item.Name. There are lots of overridable paramters
+* MoveToDateFolder - based on the date field of your choosing. There are lots of overridable paramters
+
+
+
+
