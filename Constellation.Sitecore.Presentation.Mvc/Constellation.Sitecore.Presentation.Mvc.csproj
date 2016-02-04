@@ -81,12 +81,26 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebMarkupMin.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=99472178d266584b, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebMarkupMin.Core.1.0.0\lib\net40\WebMarkupMin.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebMarkupMin.Mvc, Version=1.0.1.0, Culture=neutral, PublicKeyToken=99472178d266584b, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebMarkupMin.Mvc.1.0.1\lib\net40\WebMarkupMin.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebMarkupMin.Web, Version=1.0.0.0, Culture=neutral, PublicKeyToken=99472178d266584b, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebMarkupMin.Web.1.0.0\lib\net40\WebMarkupMin.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Caching\Cache.cs" />
     <Compile Include="Caching\CacheClearer.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\RenderingController.cs" />
+    <Compile Include="Models\IPage.cs" />
+    <Compile Include="Pipelines\RenderRendering\AddRecordedHtmlToCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IItemRepository.cs" />
     <Compile Include="Repositories\ItemRepository.cs" />
@@ -98,12 +112,11 @@
     <Content Include="License\Constellation.Sitecore.License.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+    <None Include="App_Config\Include\z_Constellation\Constellation.Pipelines.Mvc.RenderRendering.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Pipelines\RenderRendering\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
