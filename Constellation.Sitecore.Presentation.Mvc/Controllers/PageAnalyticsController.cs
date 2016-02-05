@@ -9,6 +9,10 @@
 	/// pages. Don't use this to store all inline javascript, just 3rd party analytics kits, such as 
 	/// Google Analytics.
 	/// </summary>
+	/// <remarks>
+	/// All methods will check for empty fields and attempt to navigate up the tree looking for a non-empty
+	/// script field as long as the "inherit scripts" field is true, which should be the default.
+	/// </remarks>
 	public class PageAnalyticsController : ItemController<IPageAnalytics, ItemRepository<IPageAnalytics>>
 	{
 		/// <summary>

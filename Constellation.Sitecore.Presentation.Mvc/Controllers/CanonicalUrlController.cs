@@ -5,8 +5,20 @@
 	using System;
 	using System.Web.Mvc;
 
+	/// <summary>
+	/// Renders the rel=canonical link tag based upon the current page, request protocol, and the Sitecore Site's definition.
+	/// </summary>
+	/// <remarks>
+	/// Renders an absolute URL that uses the same protocol used to request the context item (http/https). Includes all the
+	/// default LinkManager options for the site, (so it supports custom LinkProviders) but it does force "AlwaysIncludeServerUrl"
+	/// to provide the absolute URL required by Google or whoever else wants to use the canonical tag.
+	/// </remarks>
 	public class CanonicalUrlController : RenderingController<IPage>
 	{
+		/// <summary>
+		/// Renders the link rel=canonical tag.
+		/// </summary>
+		/// <returns>The complete HTML link tag.</returns>
 		protected override ActionResult Render()
 		{
 			var options = LinkManager.GetDefaultUrlOptions();

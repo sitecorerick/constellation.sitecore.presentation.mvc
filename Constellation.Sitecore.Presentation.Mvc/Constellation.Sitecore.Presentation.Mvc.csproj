@@ -97,6 +97,7 @@
   <ItemGroup>
     <Compile Include="Caching\Cache.cs" />
     <Compile Include="Caching\CacheClearer.cs" />
+    <Compile Include="Controllers\CanonicalUrlController.cs" />
     <Compile Include="Controllers\PageAnalyticsController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\SublayoutController.cs" />
