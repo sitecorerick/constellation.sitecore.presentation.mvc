@@ -97,9 +97,12 @@
   <ItemGroup>
     <Compile Include="Caching\Cache.cs" />
     <Compile Include="Caching\CacheClearer.cs" />
+    <Compile Include="Controllers\PageAnalyticsController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
+    <Compile Include="Controllers\SublayoutController.cs" />
     <Compile Include="Controllers\RenderingController.cs" />
     <Compile Include="Models\IPage.cs" />
+    <Compile Include="Models\IPageAnalytics.cs" />
     <Compile Include="Pipelines\RenderRendering\AddRecordedHtmlToCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IItemRepository.cs" />

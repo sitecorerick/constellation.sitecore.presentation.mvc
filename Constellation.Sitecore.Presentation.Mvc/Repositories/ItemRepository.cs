@@ -1,10 +1,9 @@
 ﻿namespace Constellation.Sitecore.Presentation.Mvc.Repositories
 {
 	using Constellation.Sitecore.Items;
-
+	using Constellation.Sitecore.Presentation.Mvc.Models;
 	using global::Sitecore.Data;
 	using global::Sitecore.Mvc.Presentation;
-
 	using System.Collections.Generic;
 
 	public class ItemRepository<TDatasource> : IItemRepository<TDatasource>
@@ -20,11 +19,11 @@
 			}
 		}
 
-		public IStandardTemplate ContextItem
+		public IPage ContextItem
 		{
 			get
 			{
-				return RenderingContext.Current.PageContext.Item.AsStronglyTyped();
+				return RenderingContext.Current.PageContext.Item.As<IPage>();
 			}
 		}
 

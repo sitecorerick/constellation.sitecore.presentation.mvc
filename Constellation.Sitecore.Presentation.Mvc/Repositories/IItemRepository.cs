@@ -1,6 +1,7 @@
 ﻿namespace Constellation.Sitecore.Presentation.Mvc.Repositories
 {
 	using Constellation.Sitecore.Items;
+	using Constellation.Sitecore.Presentation.Mvc.Models;
 	using global::Sitecore.Data;
 	using System.Collections.Generic;
 
@@ -9,7 +10,7 @@
 	{
 		TDatasource DatasourceItem { get; }
 
-		IStandardTemplate ContextItem { get; }
+		IPage ContextItem { get; }
 
 		TItem GetItem<TItem>(ID id) where TItem : class, IStandardTemplate;
 

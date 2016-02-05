@@ -4,24 +4,24 @@
 	using Constellation.Sitecore.Presentation.Mvc.Repositories;
 	using System.Web.Mvc;
 
-	public abstract class RenderingController<TItem> : ItemController<TItem, ItemRepository<TItem>>
-		where TItem : class, IStandardTemplate
+	public abstract class RenderingController<TDatasource> : ItemController<TDatasource, ItemRepository<TDatasource>>
+		where TDatasource : class, IStandardTemplate
 	{
-		public ActionResult Render()
+		public ActionResult RenderWithMandatoryDatasource()
 		{
 			if (DatasourceItem == null)
 			{
 				if (global::Sitecore.Context.PageMode.IsExperienceEditorEditing)
 				{
-					return View("NoDatasource");
+					return Content("<div class=\"constellation no-datasource\">No Datasource set</div>");
 				}
 
 				return new EmptyResult();
 			}
 
-			return DoRender();
+			return Render();
 		}
 
-		protected abstract ActionResult DoRender();
+		protected abstract ActionResult Render();
 	}
 }

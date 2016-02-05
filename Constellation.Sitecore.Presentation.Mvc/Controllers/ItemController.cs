@@ -1,6 +1,7 @@
 ﻿namespace Constellation.Sitecore.Presentation.Mvc.Controllers
 {
 	using Constellation.Sitecore.Items;
+	using Constellation.Sitecore.Presentation.Mvc.Models;
 	using Constellation.Sitecore.Presentation.Mvc.Repositories;
 	using System.Web.Mvc;
 
@@ -18,7 +19,7 @@
 			}
 		}
 
-		public IStandardTemplate ContextItem
+		public IPage ContextItem
 		{
 			get
 			{
