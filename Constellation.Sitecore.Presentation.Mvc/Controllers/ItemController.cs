@@ -1,10 +1,10 @@
 ﻿namespace Constellation.Sitecore.Presentation.Mvc.Controllers
 {
 	using Constellation.Sitecore.Items;
+	using Constellation.Sitecore.Presentation.Mvc.Linking;
 	using Constellation.Sitecore.Presentation.Mvc.Models;
 	using Constellation.Sitecore.Presentation.Mvc.Repositories;
 	using System.Web.Mvc;
-
 
 	/// <summary>
 	/// Base controller class that attempts to abstract out Sitecore context features into
@@ -33,6 +33,8 @@
 			}
 		}
 
+		public ILinkResolver LinkResolver { get; private set; }
+
 		/// <summary>
 		/// The Context item of the request. 
 		/// </summary>
@@ -50,15 +52,18 @@
 		protected ItemController()
 		{
 			Repository = new TRepository();
+			LinkResolver = new DefaultLinkResolver();
 		}
 
 		/// <summary>
 		/// Creates a new instance of ItemController
 		/// </summary>
 		/// <param name="repository">An instance of the repository needed by the controller.</param>
-		protected ItemController(TRepository repository)
+		/// <param name="linkResolver">An instance of LinkResolver</param>
+		protected ItemController(TRepository repository, ILinkResolver linkResolver)
 		{
 			Repository = repository;
+			LinkResolver = linkResolver;
 		}
 	}
 }

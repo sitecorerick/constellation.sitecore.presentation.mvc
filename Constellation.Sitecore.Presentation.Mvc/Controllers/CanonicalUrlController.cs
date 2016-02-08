@@ -19,7 +19,7 @@
 		/// Renders the link rel=canonical tag.
 		/// </summary>
 		/// <returns>The complete HTML link tag.</returns>
-		protected override ActionResult Render()
+		protected override ActionResult DoRender()
 		{
 			var options = LinkManager.GetDefaultUrlOptions();
 			options.AlwaysIncludeServerUrl = true;

@@ -19,9 +19,14 @@
 				return new EmptyResult();
 			}
 
-			return Render();
+			return DoRender();
 		}
 
-		protected abstract ActionResult Render();
+		public ActionResult Render()
+		{
+			return DoRender();
+		}
+
+		protected abstract ActionResult DoRender();
 	}
 }
