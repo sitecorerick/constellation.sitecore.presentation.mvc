@@ -4,6 +4,7 @@
 	using Constellation.Sitecore.Presentation.Mvc.Linking;
 	using Constellation.Sitecore.Presentation.Mvc.Models;
 	using Constellation.Sitecore.Presentation.Mvc.Repositories;
+	using global::Sitecore.Mvc.Presentation;
 	using System.Web.Mvc;
 
 	/// <summary>
@@ -65,5 +66,17 @@
 			Repository = repository;
 			LinkResolver = linkResolver;
 		}
+
+		#region Helper Methods
+
+		protected string ResolveViewPath()
+		{
+			var path = RenderingContext.Current.Rendering.RenderingItem.InnerItem.Paths.FullPath;
+			var modified = path.ToLower().Replace("/sitecore/layout", string.Empty).Replace(" ", string.Empty);
+			var viewLocation = "~/Views" + modified + ".cshtml";
+
+			return viewLocation;
+		}
+		#endregion
 	}
 }

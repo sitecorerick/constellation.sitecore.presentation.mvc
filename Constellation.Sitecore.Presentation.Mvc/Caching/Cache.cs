@@ -4,7 +4,7 @@
 	using System.Collections.Generic;
 
 	/// <summary>
-	/// Exposes various basic caching types
+	/// A facade for Sitecore and the .NET Data cache.
 	/// </summary>
 	/// <remarks>
 	/// A direct steal of Christopher Giddings code off his blog.

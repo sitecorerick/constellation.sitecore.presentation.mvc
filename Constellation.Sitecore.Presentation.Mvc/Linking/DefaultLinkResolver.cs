@@ -48,7 +48,12 @@
 				return string.Empty;
 			}
 
-			return MediaManager.GetMediaUrl(item);
+			return MediaManager.GetMediaUrl(item, MediaUrlOptions.Empty);
+		}
+
+		public string GetMediaUrl(MediaItem item, MediaUrlOptions options)
+		{
+			return MediaManager.GetMediaUrl(item, options);
 		}
 	}
 }
