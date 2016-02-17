@@ -1,0 +1,128 @@
+﻿Instructions
+============
+This library contains a number of very useful classes to make developing Sitecore MVC projects a little less
+manual. Each utility is described individually below.
+
+
+====================
+Prerequisites
+====================
+This module is meant to be used with Constellation.Sitecore.Items, and the classes it generates.
+
+====================
+Magic Controller
+====================
+This controller can be a "default" approach to developing renderings that utilize a single-item datasource
+that is suitable for use as a Model in the View.
+
+To Use:
+------- 
+1. Create a Controller Rendering in Sitecore. 
+	To be safe, specify the full class name in the Controller field:
+	"Constellation.Sitecore.Presentation.Mvc.Controller.MagicController, Constellation.Sitecore.Presentation.Mvc"
+
+2. Fill out the Datasource Template and Location fields on the Rendering Item you created above.
+	The Datasource Template should map to a Constellation Item, meaning it must map to a class that implements
+	IStandardTemplate at runtime.
+
+3. Create a View on disk at a location in your solution that matches the Controller Rendering's path in Sitecore.
+	ex: /sitecore/Layout/Renderings/Page Components/Banner Rendering becomes:
+	~/Views/Renderings/PageComponents/BannerRendering.cshtml
+
+4. The View's model must implement IStandardTemplate. You can use derivative Interfaces. I suggest inheriting from
+	Constellation.Sitecore.Presentation.Mvc.Views.EditorCompatibleView, which is described below.
+
+If the datasource of the Rendering cannot be cast to the expected Model type on the view, you'll get the native
+MVC runtime error regarding Model typing, hence it is beneficial to set the Datasource Template restrictions on
+your Rendering definition.
+
+5. Override the "GenerateCacheKey" handler in the Sitecore/Mvc/Pipelines/Response/RenderRendering pipeline. 
+	replace the default handler with: 
+	"Constellation.Sitecore.Presentation.Mvc.Pipelines.RenderRendering.GenerateCacheKey, Constellation.Sitecore.Presentation.Mvc"
+
+This replacement is crucial, because although Sitecore's cache key mechanism takes into account the name of the controller and action
+as well as the datasource, if you have two renderings that use Magic Controller and the same datasource, you won't get unique results,
+even though the renderings are technically different views. The Constellation GenerateCacheKey handler addresses this by including the
+Rendering Item's path in the key, ensuring each Rendering gets its own cache.
+
+====================
+EditorCompatibleView
+====================
+Extends the basic MVC View classes (generic and otherwise) to support properties that are very handy to have when developing Sitecore
+Views. The following properties are exposed:
+
+bool InEditor
+	Equivalent to Sitecore.Context.PageMode.IsExperienceEditor == true;
+
+bool IsEditing
+	Equivalent to Sitecore.Context.PageMode.IsExperienceEditorEditing == true;
+
+string Version
+	Provides the Version portion of the Assembly name of your Application at runtime (ex: "1.2.3456.7890". Can be used to "bust" client side
+	caches by including it in querystring parameters for static files, invalidating cookies, and so forth - far better than using a date-based
+	cache busting technique. 
+	
+	To get the best use of this property, modify the AssemblyInfo.cs file in your MVC website project. Change these attributes:
+	[assembly: AssemblyVersion("1.0.0.0")]
+	[assembly: AssemblyFileVersion("1.0.0.0")]
+
+	to:
+	[assembly: AssemblyVersion("1.0.*")]
+	[assembly: AssemblyFileVersion("1.0.*")]
+
+	The first two numbers are always updated manually, but now the last two numbers will be updated every time you rebuild the project for
+	a given configuration target.
+
+============================
+Rendering Output Compression
+============================
+Hands-off HTML minification for all Renderings. Under the hood it uses Web Markup Min: http://webmarkupmin.codeplex.com/ The level of minification
+is controlled through a Configuration Section in the Web.config.
+
+To Use:
+-------
+1. Override the "AddRecordedHtmlToCache" handler in the Sitecore/Mvc/Pipelines/Response/RenderRendering pipeline. 
+	replace the default handler with: 
+	"Constellation.Sitecore.Presentation.Mvc.Pipelines.RenderRendering.AddRecordedHtmlToCache, Constellation.Sitecore.Presentation.Mvc"
+
+2. Tweak the web config settings under /configuration/webMarkupMin. "Safe" HTML5 defaults are included in this package.
+
+================================
+Separation of Concerns Framework
+================================
+For people who really love to unit test, there is a complete API to separate "getting things from Sitecore" from "controlling output"
+and "output as HTML" as well as "getting links". Please note that as with most of the classes in this library, it is assumed you want
+to use Constellation Item classes to work with Items, and that everything is compatible with IStandardTemplate.
+
+Here are the components:
+------------------------
+> IItemRepository
+	Contract for a class that encapsulates any direct access to the Sitecore data retrieval API, with particular emphasis on Context objects.
+	This allows you to mock the Repository and test without having to use Sitecore RenderingContext, PageContext, or good 'ol Context
+
+> ItemRepository
+	Basic implementation of the contract above. Suitable for Renderings that have a single-item in their Datasource value.
+
+> ItemController
+	Base class for a unit-testable controller. Uses Generics and can support either parameterless construction or constructor injection.
+	Descend from this class if you have a Rendering that needs to query the database for multiple items.
+
+> RenderingController
+	A simple facade around ItemController that supports custom controller logic, but automates the "normal" behavior of returning an empty
+	result if the Datasource does not resolve. Descend from this class if you have a Rendering that has a singular item as a Datasource, but
+	you need to create a custom Model for the View - Otherwise, use MagicController described above.
+
+> EditorCompatibleView
+	Described above
+
+> Cache
+	Stolen verbatim from https://cjgiddings.wordpress.com/2012/02/03/sitecore-caching-utility/ (He offered no license, but the blog post indicates
+	he expects people to use it). This wraps the Sitecore cache system and allows you to create custom caches quickly and easily. Use it in
+	your Repository implementations to cache query results, use it in your Controller implementations to cache expensive intermediate objects or 
+	Models.
+
+=============
+Other Goodies
+=============
+There are controllers for Canonical Url link tags, and rendering Javascript-based Analytics tags. Both require that your Constellation Item 
+generated objects inherit some flag Interfaces, located in ..Mvc.Models here.
