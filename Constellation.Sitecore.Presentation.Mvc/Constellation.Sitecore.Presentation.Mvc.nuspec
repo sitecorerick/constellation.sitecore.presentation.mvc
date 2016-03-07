@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+	<id>$id$</id>
+	<version>$version$</version>
+	<title>$title$</title>
+	<authors>Richard J. Cabral</authors>
+	<owners>Richard J. Cabral</owners>
+	<projectUrl>https://github.com/sitecorerick/constellation.sitecore.presentation.mvc</projectUrl>
+	<requireLicenseAcceptance>false</requireLicenseAcceptance>
+	<summary>An MVC framework for Sitecore based on the Constellation libraries</summary>
+	<description>
+		This library contains a number of very useful classes to make developing Sitecore MVC projects a little less
+		manual. The library expects you to be using Constellation.Sitecore.Items as a strongly-typed Item framework.
+		
+		See the Instructions folder for details on how to use this library.
+	</description>
+	<releaseNotes>Fixed typo in config file.</releaseNotes>
+	<copyright>Copyright 2016</copyright>
+	<tags>Sitecore</tags>
+  </metadata>
+</package>

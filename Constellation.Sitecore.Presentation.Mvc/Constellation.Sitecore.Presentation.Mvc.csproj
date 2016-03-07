@@ -125,7 +125,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="App_Config\Include\z_Constellation\Constellation.Pipelines.Mvc.RenderRendering.config" />
+    <Content Include="App_Config\Include\Z.Constellation\Constellation.Pipelines.Mvc.RenderRendering.config" />
+    <None Include="Constellation.Sitecore.Presentation.Mvc.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
