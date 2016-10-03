@@ -100,6 +100,10 @@
     <Compile Include="Caching\Cache.cs" />
     <Compile Include="Caching\CacheClearer.cs" />
     <Compile Include="Controllers\CanonicalUrlController.cs" />
+    <Compile Include="Controllers\CriticalAssetController.cs" />
+    <Compile Include="Controllers\CriticalAssetParameters.cs" />
+    <Compile Include="Controllers\CriticalScriptsController.cs" />
+    <Compile Include="Controllers\CriticalStylesController.cs" />
     <Compile Include="Controllers\MagicController.cs" />
     <Compile Include="Controllers\PageAnalyticsController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
