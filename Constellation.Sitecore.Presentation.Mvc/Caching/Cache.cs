@@ -39,7 +39,7 @@
 		/// <summary>
 		/// The caching collection singleton to hold the caching references
 		/// </summary>
-		private static readonly Dictionary<string, global::Sitecore.Caching.Cache> CacheCollection = new Dictionary<string, global::Sitecore.Caching.Cache>();
+		private static readonly Dictionary<string, global::Sitecore.Caching.ICache> CacheCollection = new Dictionary<string, global::Sitecore.Caching.ICache>();
 
 		/// <summary>
 		/// Are the error logs enabled, default is false
@@ -80,13 +80,13 @@
 		/// <param name="siteName">Name of the site.</param>
 		/// <param name="databaseName">Name of the database.</param>
 		/// <returns>Returns the sitecore cache instance</returns>
-		private static global::Sitecore.Caching.Cache SitecoreCache(bool isGlobal = false, string siteName = "", string databaseName = "")
+		private static global::Sitecore.Caching.ICache SitecoreCache(bool isGlobal = false, string siteName = "", string databaseName = "")
 		{
 			// sets the default cache key
 			string cacheKey = GetBaseKey(isGlobal, siteName, databaseName);
 
 			// caching reference
-			global::Sitecore.Caching.Cache cache;
+			global::Sitecore.Caching.ICache cache;
 
 			// we need to lock the cache due to multi threaded features
 			lock (CacheLock)
@@ -100,10 +100,11 @@
 				else
 				{
 					// fetches from the settings, but has a default size
-					cache = global::Sitecore.Caching.Cache.GetNamedInstance(cacheKey, global::Sitecore.StringUtil.ParseSizeString(global::Sitecore.Configuration.Settings.GetSetting("Caching.CacheSize", "100MB")));
+					cache = global::Sitecore.Caching.CacheManager.GetNamedInstance(cacheKey, global::Sitecore.StringUtil.ParseSizeString(global::Sitecore.Configuration.Settings.GetSetting("Caching.CacheSize", "100MB")),false);
+                    
 
-					// add new reference to the singleton
-					CacheCollection.Add(cacheKey, cache);
+                    // add new reference to the singleton
+                    CacheCollection.Add(cacheKey, cache);
 				}
 			}
 
@@ -145,7 +146,7 @@
 			if (useSitecoreCache)
 			{
 				// get the cache we are looking for
-				global::Sitecore.Caching.Cache cache = SitecoreCache(globalCache, siteName, databaseName);
+				global::Sitecore.Caching.ICache cache = SitecoreCache(globalCache, siteName, databaseName);
 
 				if (cache != null)
 				{
@@ -277,7 +278,7 @@
 			// what type of cache are we using
 			if (useSitecoreCache)
 			{
-				global::Sitecore.Caching.Cache cache = SitecoreCache(globalCache, siteName, databaseName);
+				global::Sitecore.Caching.ICache cache = SitecoreCache(globalCache, siteName, databaseName);
 
 				if (cache.ContainsKey(key))
 				{
@@ -333,9 +334,6 @@
 						}
 						catch (Exception ex)
 						{
-							// log and setup defaults
-							cacheSize = 1500; // default size we have made it bigger than normal just in case
-
 							// do we display the serialization error
 							if (ErrorLogsEnabled)
 							{
@@ -346,7 +344,7 @@
 				}
 
 				// use the sitecore cache
-				cache.Add(key.ToLower(), cachingData, cacheSize, slidingCache, absoluteCache);
+				cache.Add(key.ToLower(), cachingData, slidingCache, absoluteCache);
 			}
 			else
 			{
@@ -389,7 +387,7 @@
 			if (useSitecoreCache)
 			{
 				// get the cache we are looking for
-				global::Sitecore.Caching.Cache cache = SitecoreCache(globalCache, siteName, databaseName);
+				global::Sitecore.Caching.ICache cache = SitecoreCache(globalCache, siteName, databaseName);
 
 				if (cache != null)
 				{
@@ -447,7 +445,7 @@
 			bool removeOnPublish = false)
 		{
 			// get the cache from sitecore
-			global::Sitecore.Caching.Cache cache = SitecoreCache(globalCache, siteName, databaseName);
+			global::Sitecore.Caching.ICache cache = SitecoreCache(globalCache, siteName, databaseName);
 
 			// make sure we have the data
 			if (cache != null)
